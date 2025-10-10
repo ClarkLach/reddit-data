@@ -1,14 +1,13 @@
-data/ contains the extracted posts for each keyword group. Each file contains data from the subreddits:
+subreddits/ contains folders of each of the following subreddits and their extracted posts, broken down by keyword group:
 
 "GDPR",
 "GoogleTagManager",
 "webdev",
-"web_design"
+"web_design",
+"GoogleAnalytics"
 
-GoogleAnalytics/ contains the extracted posts for each keyword group from only the /r/GoogleAnalytics subreddit, extracted on October 7, 2025.
+grouped_data/ contains the original extracted posts (back in June) for each keyword group.
 
-
-"extraction_script.py" is the script used to extact posts.
-
+"extraction_script.py" is the script used to extact posts, and contains the extact keywords used within each category.
 
 All posts are from Jan 1, 2020 onward, and comments on each post are sorted by total score.
