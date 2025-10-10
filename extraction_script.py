@@ -107,15 +107,16 @@ def search_posts(subreddit_name, keywords, category):
     print(f"Scraped {subreddit_name} for {category}")
 
 # Search for each keyword group in the subreddits
-for category, temp_keywords in keywords.items():
-    for subreddit_name in subreddits:
+for subreddit_name in subreddits:
+    for category, temp_keywords in keywords.items():
         search_posts(subreddit_name, temp_keywords, category)
 
-    os.makedirs("data/", exist_ok=True)
-    file_path = f"data/reddit_posts_{category}.json"
+        os.makedirs(f"subreddits/{subreddit_name}", exist_ok=True)
+        file_path = f"subreddits/{subreddit_name}/{subreddit_name}_posts_{category}.json"
 
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(posts_data, f, ensure_ascii=False, indent=4)
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(posts_data, f, ensure_ascii=False, indent=4)
 
-    print(f"Data saved to {file_path}")
-    posts_data.clear()  # Clear posts_data for the next subreddit
+        print(f"Data saved to {file_path}")
+        posts_data.clear()  # Clear posts_data for the next subreddit and category
+        post_ids.clear()    # Clear post_ids for the next subreddit and category

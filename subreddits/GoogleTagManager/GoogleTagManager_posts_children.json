@@ -1,0 +1,1143 @@
+[
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1741255775.0,
+        "title": "I am not able to get to the child element with CSS selector",
+        "author": "Dharmi_gohil",
+        "id": "1j4safv",
+        "selftext": "from below code I want to target <span data-usecase=\"sales\">Auto Insurance Quote</span>,can anyone help here?\n\n  \n<div class=\"holographic-card exp-zone-bot-btn exp-btn-active\">\n\n<svg width=\"37\" height=\"40\" viewBox=\"0 0 37 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n\n<g clip-path=\"url(#clip0\\_292\\_156)\">\n\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M18.1355 0C24.922 4.30176 31.0528 6.33691 36.3146 5.85579C37.2335 24.4424 30.3696 35.4189 18.2058 40C6.45941 35.7122 -0.488505 25.208 0.0267949 5.57389C6.20355 5.89714 12.2634 4.56185 18.1355 0ZM18.282 6.36165C22.9099 9.29492 27.0909 10.6826 30.6788 10.3551C31.3054 23.0296 26.6248 30.5146 18.3302 33.6383C18.2778 33.6191 18.2263 33.5993 18.1743 33.5798V6.44401L18.282 6.36165ZM18.1427 2.29655C24.1498 6.10417 29.5769 7.90592 34.2345 7.47982C35.0476 23.932 28.9721 33.6484 18.2055 37.7031C7.80772 33.9079 1.657 24.6104 2.11338 7.23014C7.58116 7.5166 12.9451 6.33464 18.1427 2.29655Z\" fill=\"white\"></path>\n\n</g>\n\n<defs>\n\n<clipPath id=\"clip0\\_292\\_156\">\n\n<rect width=\"36.3968\" height=\"40\" fill=\"white\"></rect>\n\n</clipPath>\n\n</defs>\n\n</svg>\n\n\n\n<span data-usecase=\"sales\">Auto Insurance Quote</span>\n\n</div>",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/1j4safv/i_am_not_able_to_get_to_the_child_element_with/",
+        "num_comments": 6,
+        "comments": [
+            {
+                "body": "Why not just also check for the SVG? Or if any click on that div is fine to track, you can use good ol':\n\ndiv.holographic-card.exp-zone-bot-btn, div.holographic-card.exp-zone-bot-btn *\n\nWhich matches that thing plus all of its children.",
+                "author": "winless",
+                "score": 3
+            },
+            {
+                "body": "Solution 1 (basic): \n\nClick text = Auto Insurance Quote ---> (set to fire once per page to cut down on failed completes)\n\nClick text = Submit Quote ---> (set to fire once per page to cut down on failed completes)\n\nSolution 2 (intermediate):\n\nSolution 2 (intermediate):\n\nMost modern websites will fire a Form Start and a Form Complete event in the data layer automatically. You will need a tag reader tool (suggest Omnibug chrome extention). Right click on webpage, click inspect, then click the \">>\" button and open the Omnibug tab. \n\nWhat your testing for here is what happens on your site when a user interacts with the Quote/submits quote.\n\nUser Omnibug to read: If form start/form submit events happen then use these for your triggers.\n\nSolution 3 (advanced):\n\n(This will need to be done if your form lives inside a iFrame OR you need to pass extra information) Force a datalayer push when people submit the quote, this will allow you to pass on extra information. (eg city/state/price/message) just make sure to not pass things like name, phone number, PII basically.\n\nYou will have to create corresponding custom variables in GTM, and if they are non-standard inside your analytics platform as well.",
+                "author": "Mysterious_Swan_9941",
+                "score": 2
+            },
+            {
+                "body": "My advice with GTM, is if your hitting a brick wall, try a different way to approach it. Sounds like your not having much luck with the CSS.\n\nIm confused why you can't pick the click text as a trigger though. It should be a piece of data that applies to the whole \"content card\".\n\nEdit: Your probably having trouble with the CSS because its an iFrame element?",
+                "author": "Mysterious_Swan_9941",
+                "score": 2
+            },
+            {
+                "body": "when I only take text click condition, it doesn't fire on clicking svg item",
+                "author": "Dharmi_gohil",
+                "score": 2
+            },
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Hey Thank you for your solution! FYI this is not the form I am tracking, these are the cards that I want to track, I tried using click element matches CSS selector with this - div.holographic-card.exp-zone-bot-btn, div.holographic-card.exp-zone-bot-btn > span\n\nbut this doesn't work when I click on svg inside the card (this svg is direct child element of div)",
+                "author": "Dharmi_gohil",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1731571983.0,
+        "title": "Conversion value in analytics \"nan\" instead of real value",
+        "author": "Tiesza",
+        "id": "1gr054r",
+        "selftext": "Hi everyone, I need some help with an issue where I'm using tags in GTM that send the \"purchase\" event with parameters \"value\", \"currency\", and \"transaction id\". Everything is working fine, I can see the purchase events in Analytics, but instead of the value, it always shows \"nan\".  \nWhen I use Tag Assistant, I can see the correct value in the firing tag, but in Analytics, it doesn’t appear. Does anyone know what might be causing this?\n\nFor the value, I’m using a frontend page from which I read the value. It gets updated if available, and if it's not on the page, I read it from sessionStorage. The code looks like this:  \nThe input value for `.total-price td:nth-child(2)` is, for example, `<td>250.71&nbsp;CZK</td>`\n\n    javascriptZkopírovat kódfunction() {\n      // The key name in sessionStorage\n      var storageKey = \"transactionValue\";\n    \n      // Loads the stored value from sessionStorage\n      var storedValue = parseFloat(sessionStorage.getItem(storageKey));\n    \n      // Finds the price element on the page, if it exists\n      var element = document.querySelector('.total-price td:nth-child(2)');\n    \n      // If the element with the value on the page does not exist\n      if (!element) {\n        return storedValue; // Returns the stored value even if the element is not on the page\n      }\n    \n      // Loads the current value from the element's text\n      var text = element.textContent.trim();\n      var value = text.match(/[\\d,]+/);\n    \n      if (value) {\n        value = parseFloat(value[0].replace(',', '.'));\n        var convertedValue = parseFloat((value / 1.21).toFixed(2));\n    \n        // If the value in sessionStorage does not exist or differs from the current value, updates it\n        if (!storedValue || storedValue !== convertedValue) {\n          sessionStorage.setItem(storageKey, convertedValue);\n        }\n    \n        return parseFloat(convertedValue);\n      }\n    \n      return storedValue || null; // If there is no stored value, returns null\n    }\n    \n\nWhen i check in Tag Assistant – the value is a number and has a decimal dot instead of a comma.\n\nThanks!",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/1gr054r/conversion_value_in_analytics_nan_instead_of_real/",
+        "num_comments": 5,
+        "comments": [
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "If at all possible, I'd recommend setting up proper dataLayers as per [https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client\\_type=gtm](https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtm) because otherwise you tend to get messy workarounds like this.\n\nPlease can you share a screen shot of the Variables in Preview mode, so we can see the variable being used? I wonder if the return type is incorrect.",
+                "author": "Taca-F",
+                "score": 1
+            },
+            {
+                "body": "Why do you store the value on session storage? You should store value on localStorage.",
+                "author": "baharuddin20",
+                "score": 1
+            },
+            {
+                "body": "Value should be available in local storage",
+                "author": "zenrayman",
+                "score": 1
+            },
+            {
+                "body": "Did you check what the network hit looks like?",
+                "author": "datamelon",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1728060589.0,
+        "title": "Tag is firing twice",
+        "author": "Linkyc",
+        "id": "1fw3v4x",
+        "selftext": "I implemeted the following code on on my website using tag manager. It tracks which text on the website was copied. The problem is that the copy text event is firing twice. I set the tag to fire once per page, but still, it fires twice. What can I do?\n\n<script>\n\n  (function(){\n\nvar containers = document.querySelectorAll('.footer-email-link, .contact-link');\n\nvar selection = '';\n\n\n\nfor(var i = 0; i <= containers.length - 1; i++) {\n\ncontainers\\\\\\[i\\\\\\].addEventListener('copy', function(){\n\nselection = window.getSelection().toString();\n\nwindow.dataLayer.push({\n\n'event': \"copyText\",\n\n'copiedText': selection\n\n});\n\n});\n\n}\n\n  })();\n\n</script>",
+        "score": 3,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/1fw3v4x/tag_is_firing_twice/",
+        "num_comments": 7,
+        "comments": [
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "there should be something wrong with the trigger, nothing can be said unless that can be checked",
+                "author": "procstinator",
+                "score": 1
+            },
+            {
+                "body": "Can you check if the dl event is populated twice though the user takes the action once?",
+                "author": "brncnclk",
+                "score": 1
+            },
+            {
+                "body": "Is it possible that the event is bubbling up? Is there a parent and child element that are both being assigned this event handler, and both are firing when the child triggers the event handler?",
+                "author": "spiteful-vengeance",
+                "score": 1
+            },
+            {
+                "body": "What I noticed is that when I copy the text (e-mail link) from the footer of the website elektrolinka.cz, the event fires twice. However, when I copy the email from the page elektrolinka.cz/kontakt, it fires just once as it should.",
+                "author": "Linkyc",
+                "score": 1
+            },
+            {
+                "body": "Are you done with this?",
+                "author": "analyst_bappy",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1719303292.0,
+        "title": "Trigger on button with span",
+        "author": "HeyYouPandaBear",
+        "id": "1do0u79",
+        "selftext": "Hi everyone\n\nIf I want to create a trigger that fires on this button below - how do I do that?\n\nMy problem is, that if I target the ID, then it won't fire when I click the text in the button.\n\n<button id=\"button\\\\\\_id\" class=\"Button\\\\\\_class\">  \n<span>Button text</span>  \n</button>\n\n\n  \n**EDIT: Found the solution**:\n\nTrigger type = Click on all elements -> Some clicks -> Click Element -> matches CSS selector -> #button\\_id, #button\\_id \\*\n\n#button\\_id -> Targets the parent element that has the id  \n#button\\_id \\* -> Targets every child element of the parent with the id  \n",
+        "score": 2,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/1do0u79/trigger_on_button_with_span/",
+        "num_comments": 13,
+        "comments": [
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Are you a marketing professional and have 15 minutes to share your insights? [Take our 2023 State of Marketing Survey](https://lookingformarketing.com/survey/state-of-marketing?utm_source=r_googletagmanager&utm_medium=social).\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "[removed]",
+                "author": null,
+                "score": 1
+            },
+            {
+                "body": "Wouldn't the closest functionality not work here: [https://developer.mozilla.org/en-US/docs/Web/API/Element/closest](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest)\n\nOR maybe the matches one: [https://developer.mozilla.org/en-US/docs/Web/API/Element/matches](https://developer.mozilla.org/en-US/docs/Web/API/Element/matches)\n\nAnd then just make sure the trigger is on the text element or the closest ID?\n\nWithout seeing the website it is a bit hard to help, but maybe this helps you out a bit.",
+                "author": "MisterMarcoo",
+                "score": 1
+            },
+            {
+                "body": "You could use the Click on all elements and filter by Click text (built in variable) to accomplish this that is a consistent click text.",
+                "author": "ncklrs",
+                "score": 1
+            },
+            {
+                "body": "have you tried creating a Trigger using Click-All Elements. \n\nThis trigger fires on Some Clicks.\n\nClick ID equals button\\_id\nClick Text equals Button text\n\nThis should work as it means to either fire on click id or click text.",
+                "author": "rlewis2019",
+                "score": 1
+            },
+            {
+                "body": "If you know the answer, feel free to write it in a comment.",
+                "author": "HeyYouPandaBear",
+                "score": 1
+            },
+            {
+                "body": "I've tried this - but it dosen't fire when you click on the text (the span-tag)",
+                "author": "HeyYouPandaBear",
+                "score": 1
+            },
+            {
+                "body": "[removed]",
+                "author": null,
+                "score": 1
+            },
+            {
+                "body": "Sorry - but no can do... My company is against it... but the code matches the website - just with correct ID, Class and text",
+                "author": "HeyYouPandaBear",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1709029701.0,
+        "title": "CSS Matching with #ID in parents class",
+        "author": "Ill_Barber9530",
+        "id": "1b18osl",
+        "selftext": "Hey everyone, I'm facing an issue while doing the GTM setup for my website. I got ID on a footer that I want to track using the \"CSS Matches\" option, but it doesn't works.  \n\n\nI got the following string in values for my Click Element :   \n*https://mogiguitar.com/guitare-acoustique-pliable/: html > body.home.page-template-default.page.page-id-2646.wp-custom-logo.elementor-default.elementor-kit-11.elementor-page.elementor-page-2646.cmplz-functional.cmplz-eu.cmplz-optin.e--ua-appleWebkit.e--ua-mac.e--ua-safari.e--ua-webkit > div.elementor.elementor-1601.elementor-location-footer > div.elementor-element.elementor-element-a917ff9.e-flex.e-con-boxed.e-con.e-parent > div.e-con-inner > div.elementor-element.elementor-element-bceb4c9.e-flex.e-con-boxed.e-con.e-child > div.e-con-inner > div.elementor-element.elementor-element-8600e00.e-con-full.e-flex.e-con.e-child > div.elementor-element.elementor-element-6e329bc.e-con-full.e-flex.e-con.e-child > div.elementor-element.elementor-element-0fb16dd.elementor-widget.elementor-widget-heading***#foot-mogi-one** *> div.elementor-widget-container > p.elementor-heading-title.elementor-size-default >* ***a***  \n\n\nAnd I wanted to create :  \nClick Element > Matches CSS > #foot-mogi-one .a   \nTo trigger my tag, but I doesn't work  \nI'm a boob regarding CSS, and just learned about it yesterday when starting the GTM setup. What am I doing wrong ?  \n\n\nThanks a lot for taking the time to respond and have a great day guys",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/1b18osl/css_matching_with_id_in_parents_class/",
+        "num_comments": 12,
+        "comments": [
+            {
+                "body": "Does the following work:  \n`div#foot-mogi-one a`  \n\n\nOr possibly a catch all of:  \n`div#foot-mogi-one a *`",
+                "author": "mcockram85",
+                "score": 2
+            },
+            {
+                "body": "The first one is working thanks a lot !!",
+                "author": "Ill_Barber9530",
+                "score": 2
+            },
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Are you a marketing professional and have 15 minutes to share your insights? [Take our 2023 State of Marketing Survey](https://lookingformarketing.com/survey/state-of-marketing?utm_source=r_googletagmanager&utm_medium=social).\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Trigger link_click and condition some event \"page url\" contain \" /guitare-acoustique-pliable\"",
+                "author": "Fast-Energy7074",
+                "score": 1
+            },
+            {
+                "body": "Sadly there is other button that goes to this url ..",
+                "author": "Ill_Barber9530",
+                "score": 1
+            },
+            {
+                "body": ">div#foot-mogi-one a\n\nAwesome, glad it worked.",
+                "author": "mcockram85",
+                "score": 1
+            },
+            {
+                "body": "Can you share me GTM debug-view when Click mogi one button",
+                "author": "Fast-Energy7074",
+                "score": 1
+            },
+            {
+                "body": "Sure, here it is : [https://ibb.co/5ThN4GP](https://ibb.co/5ThN4GP)\n\nAnd thans a lot for you time",
+                "author": "Ill_Barber9530",
+                "score": 1
+            },
+            {
+                "body": "can you share GTM variable preview mode.  Or join the zoom call  will fix your issue.",
+                "author": "Fast-Energy7074",
+                "score": 1
+            },
+            {
+                "body": "Isn't it the text in the post ? Sry I'm not used to work with GTM.   \nAnyway it was working adding while working with div#foot-mogi-one a  \nThanks again",
+                "author": "Ill_Barber9530",
+                "score": 1
+            },
+            {
+                "body": "Hi \n\ntry to this formula. Click classes > equals > elementor-heading-title elementor-size-default",
+                "author": "Fast-Energy7074",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1721887158.0,
+        "title": "Google Consent Mode tags and Analytics tag in an external.js file instead of inline?",
+        "author": "yagami_kira",
+        "id": "1ebniay",
+        "selftext": "I'm trying to optimize my website's code and I'm considering putting my Google Consent Mode tags and Google Analytics tag in an external JavaScript file, instead of the usual inline method. However, I have no idea if this will affect how Google crawlers track my website and determine if Analytics or Consent mode is properly installed.\n\nCan this be done without any issues? Specifically, I'm planning to put the following code in an external JavaScript file:\n\n1. Consent Mode tags (e.g. gtag('consent', 'default', {...}))\n2. Google Analytics tag (e.g. gtag('config', 'TAG\\_ID'))\n\nSo it will look like this:\n\n\n\n/// external.js\n\nwindow.dataLayer = window.dataLayer || \\[\\];\n\nfunction gtag(){dataLayer.push(arguments);}\n\ngtag('consent', 'default', {\n\n'ad\\_storage': 'denied',\n\n'ad\\_user\\_data': 'denied',\n\n'ad\\_personalization': 'denied',\n\n'analytics\\_storage': 'denied'\n\n});\n\n<!---The rest of consent codes here--->\n\n\nvar script = document.createElement('script');\n\nscript.async = true;\n\nscript.src = 'https://www.googletagmanager.com/gtag/js?id=TAG\\_ID';\n\ndocument.head.appendChild(script);\n\ngtag('js', new Date());\n\ngtag('config', 'TAG\\_ID');\n\n\n\n/// index.html\n\n<html>\n\n\n<head>\n\n\n  <script src=\"external.js\"></script>\n\n\n</head>\n\n\n<body>\n\n\n</body>\n\n\n</html>\n\n\n\n\nAre there any specific considerations I should keep in mind when doing this?",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/1ebniay/google_consent_mode_tags_and_analytics_tag_in_an/",
+        "num_comments": 3,
+        "comments": [
+            {
+                "body": "What matters here is to measure,  because theoretically, putting it in another file should not improve performance and can potentially make it worse because of the extra HTTP request.",
+                "author": "RCoffee_mug",
+                "score": 3
+            },
+            {
+                "body": "You have to manually set the execution of your scripts to make sure everything is firing in the correct order.",
+                "author": "Frosti11icus",
+                "score": 2
+            },
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1715233019.0,
+        "title": "Collect Transaction ID, Value and Purchase within an iFrame",
+        "author": "NicoCollu",
+        "id": "1cnpr94",
+        "selftext": "Hello,\n\nThis is a real estate photography site [https://snaplyst.com/book-now/](https://snaplyst.com/book-now/) which has an embedded iframe that allows a user to choose products, enter personal information, book a time, and pay. I wish to collect mainly the value of the purchase and that the purchase has been made for Google Ads.\n\nThe iframe website ( [aryeo.com](http://aryeo.com) ) allows for an app where I can add a Google Tag Manager Container ID to the iframe, which likely means I can treat it as a child and have it send to a parent (un-sure).\n\nI am looking for anything to point me in the right direction, i.e.  \n- is it even possible to pick particular data from an iframe?  \n- what is the best solution here?\n\nThank you!",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/1cnpr94/collect_transaction_id_value_and_purchase_within/",
+        "num_comments": 5,
+        "comments": [
+            {
+                "body": "This is great - I used your link suggestion and [https://measureschool.com/iframe-tracking/](https://measureschool.com/iframe-tracking/) although I seem to only be able to transmit Click information to the parent.\n\nI wish to find out how to use a trigger such as \"Form Submission\" and track several values. I am not having any success here. For example, I even tried a trigger to simply identify a unique text at the end of the form (Order Confirmation) at least to confirm the order has gone through but that isn't triggering either.\n\nI will try to find some info to get more data pushed from the child GTM to the parent GTM.",
+                "author": "NicoCollu",
+                "score": 2
+            },
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Are you a marketing professional and have 15 minutes to share your insights? [Take our 2023 State of Marketing Survey](https://lookingformarketing.com/survey/state-of-marketing?utm_source=r_googletagmanager&utm_medium=social).\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Maybe this? [How Do I Use The postMessage() Method With Cross-site Iframes? - Simmer (teamsimmer.com)](https://www.teamsimmer.com/2023/05/02/how-do-i-use-the-postmessage-method-with-cross-site-iframes/)\n\nUsually developers used some method to push data from iframe to the main web and then I captured it with gtm.",
+                "author": "mar1_jj",
+                "score": 1
+            },
+            {
+                "body": "I have seen your form and you have 5 steps on this. If I am not wrong ordinary iFrame tracking technique may not work that. You need to create a new listener code from origin of the messageEvent. [https://prnt.sc/SvrW7q6F1Rjw](https://prnt.sc/SvrW7q6F1Rjw)\n\nif you allow me on that form, I can try to create the listener",
+                "author": "motiur_ak07",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1699952991.0,
+        "title": "CSS selector keeps outputting 0 or null",
+        "author": "seimmol",
+        "id": "17uye2y",
+        "selftext": "\nHii CSS nooby here,\n\nIm trying to use a CSS selector to fire a tag in Google Tag Manager, but for some reason it keeps outputting 0 no matter what I'm trying to find. I've tried to find almost any element om my website and it keeps putting out 0.\n\nFor example, I'm trying to output it on a form with the following HTML: <button class=\"button\" c-webtocaseform\\_webtocaseform=\"\">Submit</button>\n\nThe SSL selector on it is (I clicked right click on the element and copied Css Selector): \n\nbody > webruntime-app > lwr-router-container > webruntime-inner-app > dxp\\_data\\_provider-user-data-provider > dxp\\_data\\_provider-data-proxy > community\\_byo-scoped-header-and-footer > main > webruntime-router-container > dxp\\_data\\_provider-user-data-provider > dxp\\_data\\_provider-data-proxy > community\\_layout-slds-flexible-layout > div > community\\_layout-section > div.lwc-6j9an5vbrcd.columns-content > community\\_layout-column:nth-child(1) > div > c-web-tocase-form > div > div > form > button\n\nWhen I use document.querySelectAll(\"body > webruntime-app > lwr-router-container > webruntime-inner-app > dxp\\_data\\_provider-user-data-provider > dxp\\_data\\_provider-data-proxy > community\\_byo-scoped-header-and-footer > main > webruntime-router-container > dxp\\_data\\_provider-user-data-provider > dxp\\_data\\_provider-data-proxy > community\\_layout-slds-flexible-layout > div > community\\_layout-section > div.lwc-6j9an5vbrcd.columns-content > community\\_layout-column:nth-child(1) > div > c-web-tocase-form > div > div > form > button\") its outputs 0. \n\nIt keeps doing this, I'm not an developer so would appreciate some tips.\n\nThanks in advance",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/17uye2y/css_selector_keeps_outputting_0_or_null/",
+        "num_comments": 8,
+        "comments": [
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Are you a marketing professional and have 15 minutes to share your insights? [Take our 2023 State of Marketing Survey](https://lookingformarketing.com/survey/state-of-marketing?utm_source=r_googletagmanager&utm_medium=social).\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "You need to use dot notation to crawl down the node. Try with ‘.’ and no spaces between element names",
+                "author": "joe_shrimpton",
+                "score": 1
+            },
+            {
+                "body": "Tanks for your reply, at what points do i place a '.'? Just when it said class or also at other points?",
+                "author": "seimmol",
+                "score": 1
+            },
+            {
+                "body": "Welcome, you use it between every element, try with a much simpler / shorter one to get the hang of it. Good tutorial video here: https://youtu.be/nxEYZthbzp4?feature=shared",
+                "author": "joe_shrimpton",
+                "score": 1
+            },
+            {
+                "body": "hi, thanks for the video. Unfortanetely it all still keeps outputting null, even if I just  look for a simple class. I read that it could be that the elements load after the script (I'm not sure which script), could this be the issue?",
+                "author": "seimmol",
+                "score": 1
+            },
+            {
+                "body": "Is your form in an iframe?",
+                "author": "joe_shrimpton",
+                "score": 1
+            },
+            {
+                "body": "Noo, but they are all seperated objects build in Salesforce lightning using web runtime",
+                "author": "seimmol",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1698074343.0,
+        "title": "Tracking form conversion in an iframe - 2 vs 1 containers",
+        "author": "BarracudaUnlucky8584",
+        "id": "17emvp6",
+        "selftext": "I've got a complicated set-up right now where I have a Google Tag Manager container in an iFrame firing (called child) and another container on the page the iframe is sat in (called parent). \n\nWhen the form is completed an event is fired which should push to the parents Google Analytics account. However I'm finding it's not firing in at least 50% of the cases.\n\nIs there a reason I couldn't just use the same Google Tag Manager in both instances? ",
+        "score": 2,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/17emvp6/tracking_form_conversion_in_an_iframe_2_vs_1/",
+        "num_comments": 7,
+        "comments": [
+            {
+                "body": "Using JS postMessage ? \n\nI always use a different container for the child iframe.\n\nYou probably don’t want to fire many of the tags in your parent on the child, and having two simplifies the deployment.",
+                "author": "nakfil",
+                "score": 3
+            },
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Are you a marketing professional and have 15 minutes to share your insights? [Take our 2023 State of Marketing Survey](https://lookingformarketing.com/survey/state-of-marketing?utm_source=r_googletagmanager&utm_medium=social).\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Yeah agree with the others, if you try fire the tag from the actual child window it may not fire, best to use postMessage to message the parent and the parent page fires.  \n\n\nBut this can be implemented with either 1 GTM container or 2. 2 is easier since the child container would be very simple. If you use 1, you might want to test if the container is in an iframe and use exceptions so that the postMessage tag only fires in the iframe and all the other tags only fire OUTSIDE the iframe. Which can be a pain.",
+                "author": "TacticLab",
+                "score": 1
+            },
+            {
+                "body": "It is always better to use two separate Google tag manager containers to avoid attribution issues on your analytic platforms. The child container will fire the post message script to the parent tag. \n\nThe reason for discrepancies can be the parent container has been blocked by Ad block, ITP restrictions from browsers etc. You can try loading the Web container for Child and parent through a CDN then test.\n\nIt is also possible that you might have Child container firing on specific forms, not all the forms submission, so make sure that your triggers and tags are updated.",
+                "author": "Former_Lemon_1618",
+                "score": 1
+            },
+            {
+                "body": "Here is a video regarding iframe tracking.\n\nhttps://youtu.be/yIWkcMvrpC0?si=SskdvyPvrzQsIFCm",
+                "author": "Humble_Elderberry_25",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1692866666.0,
+        "title": "Can I find where GTM code is implemented?",
+        "author": "ben_bgtDigital",
+        "id": "15zw4y5",
+        "selftext": "I usually use GTM4WP plugin as it's easier to set up various things. A website I'm looking at has the GTM snippet somewhere, but I can't see where. Is it possible to see where / how it's implemented?  \nI've checked the usual (WordPress) other plugins, header & footer, code snippet sections and it's not there.  \nThe website backend is very messy, I could just be missing it but have spetn a good 30 mins searching arond.",
+        "score": 2,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/15zw4y5/can_i_find_where_gtm_code_is_implemented/",
+        "num_comments": 6,
+        "comments": [
+            {
+                "body": "Two quick methods to find out:\n\nMethod 1:\n\n1. Visit the page.\n\n2. Open Developer Tools (F12 or right-click on the page and click \"Inspect\").\n\n3. Open the \"Network\" tab.\n\n4. In the \"Filter\" input box, type \"GTM.js\".\n\n5. Refresh the page for good measure.\n\n6. Find the \"GTM.js\" script in the list of network calls.\n\n7. Look at the column \"Initiator\". This will tell you which file injected the \"GTM.js\" script. If it says \"index\" that usually means that the script is manually hard-coded to the index.html file. If it shows another JavaScript file, then that file is responsible for injection. You can also click on the Initiator and it will take you to the location of the GTM script.\n\n\nMethod 2:\n\n1. Visit the page.\n\n2. Open Developer Tools (F12 or right-click on the page and click \"Inspect\").\n\n3. Use Ctrl+Shift+f to open global search\n4. Search for the Container ID.\n\n5. Search results will show a list of files that reference that ID and their locations.",
+                "author": "brannefterlasning",
+                "score": 3
+            },
+            {
+                "body": "[removed]",
+                "author": null,
+                "score": 2
+            },
+            {
+                "body": "[If this post doesn't follow the rules report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "It's in the source code, close to the head (top) - nothing looks out of place to me. Could be hiding somewhere on the site, through another plugin that's not so obvious to me.",
+                "author": "ben_bgtDigital",
+                "score": 1
+            },
+            {
+                "body": "If the GTM snippet is inside another ressource you can find it looking in the network for gtm.js and the initiator value. Of that points to a specific js, that's where it is.",
+                "author": "ZoSoVII",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1691150410.0,
+        "title": "Send GA4 event from container on one domain to GA4 property of another domain?",
+        "author": "objectivist2",
+        "id": "15hy60p",
+        "selftext": "Hi all,  \n\r  \nis it possible to have GTM on domain A that would send a GA4 event to analytics account (measurement ID) of domain B?  \nCurrently, if I send the GA4 event (manually entered measurement ID) from container on domain A to measurement ID of domain B, nothing happens – GA debug view of domain B is empty.   \n\n\nHowever, this is understandable since that would mean anyone knowing the measurement ID of a website could send events to foreign GA properties. Do I need to set up something in GA – new web stream? I don't think cross-domain tracking is what I need here.\n\n  \nBackground: I have a website which has an appointment booking system displayed in iframe. Let's call them bookingprovider.com and hairsalon.com. I sucessfully set up tracking but it's messy:\n\n**child GTM container on bookingprovider.com  (iframe) -** \n\n* sends events from to parent container (domain B) via postMessage\n\n**parent GTM container on** **hairsalon.com** **(displaying the iframe):**\n\n* receives events from child container via postmessage\n* sends the GA4 event to GA4 property of hairsalon.com  \n\n\nmy goal, if possible:\n\n**child GTM container on** **bookingprovider.com** **(iframe):**\n\n* sends the GA4 event to GA4 property of hairsalon.com\n\n**parent container:**  \nnot needed for this\n\n  \n\r  \n\r  \n\r  \n",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/15hy60p/send_ga4_event_from_container_on_one_domain_to/",
+        "num_comments": 5,
+        "comments": [
+            {
+                "body": "This is only messy bc iframes suck. The way you’re doing it is correct. \n\nYou don’t want to send a ga4 event directly from your iframe - wrong domain , session, in your reports. You could, but I wouldn’t.",
+                "author": "nakfil",
+                "score": 2
+            },
+            {
+                "body": "I agree. postMessage from a child container to the parent is the absolute best way to achieve this type of tracking. It's well documented and it's reliable.\n\n[www.theritzlondon.com](https://www.theritzlondon.com) uses this for some data collection for restaurant bookings. The booking form is an embedded iframe from the booking service provider and they allowed a GTM container to be added. That GTM container has a single tag implementing the postMessage script.",
+                "author": "DigitalStefan",
+                "score": 2
+            },
+            {
+                "body": "Thank you both, I'll keep the postmessage process in place!",
+                "author": "objectivist2",
+                "score": 2
+            },
+            {
+                "body": "[If this post doesn't follow the rules report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "For sure, good luck!",
+                "author": "nakfil",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1686733926.0,
+        "title": "HELP me - stupid issue and I don't know what to do",
+        "author": "alienfromoutterspace",
+        "id": "14932bg",
+        "selftext": "I cannot get down to the issue here. I have a DL set with values:  \n\n\nhttps://ibb.co/GRbkXR3\n\n  \nand in GTM, I have defined datalayer variables - but in preview mode, only phone number, e-mail and step variables seems to be sending value with the variable (to GA4 event tag)  \n\n\nhttps://ibb.co/TcpcxBV\n\n  \nI am using this datalayer variable name: eventModel.address.first\\_name  \nwhat is wrooooooong  \nhelp pls",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/14932bg/help_me_stupid_issue_and_i_dont_know_what_to_do/",
+        "num_comments": 5,
+        "comments": [
+            {
+                "body": "Have you ever tried to change \"address.first_name\" to \"address_first_name\"? There is no parent element named address in the class but it refers with dot. This seems the root cause of the issue.",
+                "author": "fredy013",
+                "score": 5
+            },
+            {
+                "body": "This is the answer. Avoid adding periods in data layer parameter names!\n\nThere may be a way to access them if you absolutely cannot change the names, but I haven't tested it.\n\nCreate a Custom Javascript variable and the code would look like:-\n\n&#x200B;\n\n    function() {\n        return google_tag_manager[{{Container ID}}].dataLayer.get('eventModel')['address.first_name']\n    }\n\n*Either replace {{Container ID}} with your GTM container ID, or just switch it on, because it's a built-in variable.*\n\n&#x200B;\n\nAgain... I haven't tested it. I remembered this from part of setting up iframe tracking.\n\n&#x200B;\n\nEDIT:\n\nJust a thought, you could also change the data layer structure to:-\n\n    event: \"onboarding_checkout\",\n    eventModel: {\n        step: 3,\n        sha_256_email_address: \"abc123...\",\n        phone_number: \"+49 ....\"\n        address: {\n            first_name: \"test\",\n            last_name: \"test\",\n            country: \"de\"\n        }\n    }\n\nThis would cause correct results to be returned without making any further changes to your data layer variables.",
+                "author": "StefanAtWork",
+                "score": 4
+            },
+            {
+                "body": "[If this post doesn't follow the rules report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/).\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Yeah GTM uses dot notation to declare parent/child structures, it’s the periods messing with it in those latter keys, switch to _ and you’ll be fine",
+                "author": "joe_shrimpton",
+                "score": 1
+            },
+            {
+                "body": "This. Don't put dots in JSON since you use dot notation to get the values. If you don't have control over the name, then check out [this stack overflow thread](https://stackoverflow.com/questions/2577172/how-to-get-objects-value-if-its-name-contains-dots) for a solution",
+                "author": "eddydio",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1690445384.0,
+        "title": "Tracking Jotform Submission with Google Tag Manager",
+        "author": "tarrycher",
+        "id": "15avrvn",
+        "selftext": "Hi, will like to seek help with write a listener script for Jotform submission on my website.\n\nI was reading the guide: [https://codeandtonic.com/blog/jotform-conversion-tracking](https://codeandtonic.com/blog/jotform-conversion-tracking) but was stuck at the part of how to write the coding to \"Implement your DataLayer push here\"\n\nThis is the my coding i copied from the guide\n\n    var eventMethod = window.addEventListener ? \"addEventListener\" : \"attachEvent\";\r\nvar eventer = window[eventMethod];\r\nvar messageEvent = eventMethod == \"attachEvent\" ? \"onmessage\" : \"message\";\r\n\r\n// Object to store submitted form IDs\r\nvar submittedForms = {};\r\n\r\n// Listen to message from child window\r\neventer(messageEvent, function(e) {\r\n    var key = e.message ? \"message\" : \"data\";\r\n    var data = e[key];\r\n\r\n    console.log(\"iFrame Message listener (added for Jotform conversion tracking) heard:\");\r\n    console.log(data);\r\n\r\n    // Check if the action is submission-completed\"\r\n    if(data.action == \"submission-completed\"){\r\n        // Implement your DataLayer push here\r\n    }\r\n\r\n}, false);\n\nMy form id is 223621766769468 and custom event is \"jotform-submitted\"\n\nI tried to copy what was shown in the guide and the youtube video but the last part of the coding wasn't shown.\n\nWill really be grateful if anyone can help. Thanks so much",
+        "score": 3,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/15avrvn/tracking_jotform_submission_with_google_tag/",
+        "num_comments": 3,
+        "comments": [
+            {
+                "body": "[deleted]",
+                "author": null,
+                "score": 2
+            },
+            {
+                "body": "[If this post doesn't follow the rules report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "    var eventMethod = window.addEventListener ? \"addEventListener\" : \"attachEvent\";\r\nvar eventer = window[eventMethod];\r\nvar messageEvent = eventMethod == \"attachEvent\" ? \"onmessage\" : \"message\";\r\n\r\n// Object to store submitted form IDs\r\nvar submittedForms = {};\r\n\r\n// Listen to message from child window\r\neventer(messageEvent, function(e) {\r\n    var key = e.message ? \"message\" : \"data\";\r\n    var data = e[key];\r\n\r\n    console.log(\"iFrame Message listener (added for Jotform conversion tracking) heard:\");\r\n    console.log(data);\r\n\r\n    // Check if the action is submission-completed\"\r\n    if(data.action == \"submission-completed\"){\r\n        // Implement your DataLayer push here\r\n    }\r\n\r\n}, false);",
+                "author": "tarrycher",
+                "score": 1
+            },
+            {
+                "body": ">window.dataLayer.push({ 'event': 'jotform\\_submission' });\n\nHi thanks so much for the reply, it works!\n\ni changed the code to:\n\n    <script>\r\nvar eventMethod = window.addEventListener ? \"addEventListener\" : \"attachEvent\";\r\nvar eventer = window[eventMethod];\r\nvar messageEvent = eventMethod == \"attachEvent\" ? \"onmessage\" : \"message\";\r\n\r\neventer(messageEvent, function(e) {\r\n    var key = e.message ? \"message\" : \"data\";\r\n    var data = e[key];\r\n    \r\n    if(data.action == \"submission-completed\"){\r\n        window.dataLayer.push({ 'event': 'jotform_submission' });\r\n    }\r\n\r\n}, false);\r\n</script>\n\nHowever, not sure why but its firing the custom event twice, everytime i submit a form submission. Will try to figure it out",
+                "author": "tarrycher",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1680004393.0,
+        "title": "Cookieless tracking for cross-site iframes - GA4 update?",
+        "author": "griz_fan",
+        "id": "124md4y",
+        "selftext": "Hi,\n\nI'm helping a client who has a website that loads a third-party event booking web service in an iFrame (something like Fareharbor, Bookeo or Starboardsuite). Last year, I set this up for UA by following [Simo Ahava's Cookieless tracking for cross-site iframes guide](https://www.simoahava.com/analytics/cookieless-tracking-cross-site-iframes/). I'm not an expert in GTM or GA, so I struggled a bit to get things to work.\n\nNow, I need to help this same client transition to GA4, and I'd like to track the events from the third-party website in the iFrame in GA4, and also improve how this data gets passed back to Google Ads tracking, too. \n\nHas anyone successfully migrated from using cookieless tracking in an iFrame with UA to GA4? I *think* the custom tags for the parent and child page can be left alone (please let me know if that's not the case). Where I'm struggling is how to trigger the GA4 Configuration Tag and various event tags, and successfully pass in the client ID and data layer values from the child page to the parent page's GTM? It seems like the [section of the guide covering this](https://www.simoahava.com/analytics/cookieless-tracking-cross-site-iframes/#google-analytics-tags) still only addresses using UA and not GA4. I feel like I am so close to figuring this out, but I've hit a point where I'm in over my head a bit and could use some guidance. \n\nAny tips or help would be greatly appreciated. Thanks!",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/124md4y/cookieless_tracking_for_crosssite_iframes_ga4/",
+        "num_comments": 6,
+        "comments": [
+            {
+                "body": "[If this post doesn't follow the rules report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/).\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "I've not used this particular approach, so can't comment specifically on if it does or doesn't work with GA4 but if you're asking about being able to use the Field To Set values in the ga4 config tag then yes you should be fine to do that.",
+                "author": "mcockram85",
+                "score": 1
+            },
+            {
+                "body": "Has the company that built the scheduling tool released a GA4 integration?  or any updates? 3 of my clietns were using Iframes for scheduling tools, and I was happy to see that 2 of them released a GA4 integration. Oddly enough, they were both scheduling tools as well (Calendly and Acuity/Squarespace).\n\nIf that's not an option, I would recommend removing the iframe and implementing cross domain tracking between the website and the URL that the booking software provides. It sucks but it's reliable and Ga4 has made it fairly straightforward.",
+                "author": "blaff3687",
+                "score": 1
+            },
+            {
+                "body": "Yeah my logic behind abandoning the iframe is largely based on how intimidating that comprehensive guide is haha…and how long it would take (for me) to complete. \n\n90 days until GA4 is the source of truth officially, you’ve got lots of time still.",
+                "author": "blaff3687",
+                "score": 1
+            },
+            {
+                "body": "Hello,\r  \nCheck out our cookieless tracking website intelligence platform when you get a chance. We'd love to hear what you think!\r  \nhttps://www.twipla.com/en/why-us/cookieless-tracking",
+                "author": "VisitorAnalytics",
+                "score": 1
+            },
+            {
+                "body": "Unfortunately, they haven't released any type of GA4 integration yet. abandoning the iframe approach would force an entire website redesign. I know this is possible, and that article from Simo seems to indicated that it can be done, but that article needs a bit more updating to work fully for GA4. I'll keep trying, see what happens.",
+                "author": "griz_fan",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1670043088.0,
+        "title": "iFrame Tracking for GA",
+        "author": "lloydsilver",
+        "id": "zb7zmf",
+        "selftext": "I have a GTM container for the parent site and a separate GTM container for the child (iframe). I'm trying to use the Post Message API to send data from the child to the parent for proper GA processing.\n\nThe iframe is coded to require History Change triggers. We aren't using forms. Everything is fired with the History Change trigger which then creates events and send data to the data layer and variables.\n\nI think I have the custom html script firing on the client correctly using a sample script from Simo Ahava. But I can't get the parent custom html tag to listen correctly. It's not firing. I tried using a page view trigger as well as a history change trigger but neither has worked.\n\nIs the History Change trigger causing an issue? Any suggestions on how to solve the problem.",
+        "score": 3,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/zb7zmf/iframe_tracking_for_ga/",
+        "num_comments": 7,
+        "comments": [
+            {
+                "body": "If the hit isn’t funneled back through the parent  page, any hits from child frame would show up in GA as being from the 3rd party domain without the associated session data from the parent page",
+                "author": "HoosierDaddy3",
+                "score": 3
+            },
+            {
+                "body": "Do you need to go down the Post API path? Can't the <iframe> GTM container just report into the same GA account as the parent frame?",
+                "author": "spiteful-vengeance",
+                "score": 2
+            },
+            {
+                "body": "Stupid question....did you change the line in Simo's script that absolutely needs changing and did you note that there's a very easy to make error when making that change?\n\ni.e., did you plug in the correct URL and did you definitely *not* include the trailing slash?\n\nAlso did you set up both the sender and the listener from Simo's example?",
+                "author": "DigitalStefan",
+                "score": 1
+            },
+            {
+                "body": "Yep, I followed those instructions carefully. And had both scripts running.\n\nThe client script seemed to be ok. That's why I was wondering if the parent script should use a page trigger or something else since there will be multiple events on the single page from the iframe.",
+                "author": "lloydsilver",
+                "score": 1
+            },
+            {
+                "body": "Yeah it's just that OP didn't say that they were using 2 different domains, and they seemed to have enough control over both pages that they were able to put a GTM container on both (making me suspect it was one domain).\n\nI suppose my first question to OP should've been to clarify - are there 2 domains involved here?",
+                "author": "spiteful-vengeance",
+                "score": 1
+            },
+            {
+                "body": "The listener tag/script in the parent container needs to load and be running on any page where the iframe will be present.\n\nNot clear what your implementation is doing / not doing, but I don't think it would need to be fired on history change. Which site is doing history changes? Is it the child iframe or the parent site?\n\nIf it's the iframe, you don't need to do anything special. As long as the parent listener is run once, it will sit in the background, passively listening for iframe events.\n\nIf you want to share some specifics or even access to the containers, I'm happy to take a look.",
+                "author": "DigitalStefan",
+                "score": 1
+            },
+            {
+                "body": "Thanks for the offer and I'd greatly appreciate some help. I've spent about 2 hours trying to troubleshoot this and it's probably something silly. I'm happy to give you access just let me know creds. Thanks!",
+                "author": "lloydsilver",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1668441257.0,
+        "title": "What can cause the high 'initial server response time'?",
+        "author": "se0beas8",
+        "id": "yv3gns",
+        "selftext": " \n\nI'm working on page speed optimization of a wordpress blog and I'm using pagespeed insights tool for it.  \nIt's showing high 'initial server response time' of 600 ms to 900 ms.\n\nMy GTM had 4 to 5 tags running. For the experiement, I paused all of them and kept only empty gtm running. It was showing initial server time of 600 ms. Then I enabled UA script only which trigges on 'dom-ready'. My GTM itself is delayed by 1700ms. Now, it shows initial server time of 900ms.\n\nThe other factors are as below:\n\n1. I'm using vultr's high frequency cloud compute shared plan of $6.\n2. My server is located in US\n3. The daily traffic is hardly 20 users/day\n4. I'm using opnelitespeed server and litespeed cache plugin for optimization and caching purpose\n5. I'm using cloudflare as CDN\n6. Base theme is astra\n7. Most of the custom theme is hard coded and optimized for speed.\n8. GTM has UA tag, GA4 tag, MS clarity, pinterest tag and GA4-test tag\n9. For css, one css file of main theme, then 1 or 2 page specific css files for child theme. They are not showing any delay.\n10. There is only one js file for my site. It is minimal and coded in vanilla js. I'm not using any library like jquery.\n11. There are average 4 to 6 max images on each page but none of them is above the fold and they're lazy loaded. The average size of each image is around 80kb **but wordpress seems to be scaling them up to 120 kb. I don't know why.**\n12. The number of requests range from 27 to 31 max.\n13. The high sized files are third party scripts like UA which average around 120 kb.\n14. HTML page size is below 1 mb.\n\nIf scripts or images were the cause, they would have contributed to high Total blocking time, or time to interactive.\n\nTLDR; I'm not able to understand what's causing initial server response time as my html is not heavy, base theme is astra, scripts are delayed, images are optimized and lazily loaded, server isn't very basic, caching and cdn are implemented.\n\nWhat can be the reason?",
+        "score": 2,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/yv3gns/what_can_cause_the_high_initial_server_response/",
+        "num_comments": 3,
+        "comments": [
+            {
+                "body": "Initial server response time isn't related to your scripts or anything like that.\n\nIt's that your server is taking too long to respond to each request. The time it's referring to is between your browser sending the request and the browser recording the first byte of the response from your server.\n\nThis sounds like more of a network configuration issue, not a GTM issue, and suspect it might be a common symptom of using shared server resources.\n\nAs a side note, you can track this response time using the JS Performance API. I do this on every pageview to get a real-world understanding of how my users are *actually* experiencing the site.",
+                "author": "spiteful-vengeance",
+                "score": 1
+            },
+            {
+                "body": "Try setting up a reverse proxy to cache requests to your site.",
+                "author": "tresslessone",
+                "score": 1
+            },
+            {
+                "body": "Look into afterLoad event, might help with load speed. Good resource for this is Analytics mania",
+                "author": "Zanenda",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1648244486.0,
+        "title": "GTM tag \"Google Optimize\" is replacing links on my page and I can't figure out where to edit it",
+        "author": "Life-Satisfaction-58",
+        "id": "to0wcn",
+        "selftext": "Hi Guys,\n\nI'm just the web-dev assigned to do a job not in my wheelhouse and I'm hoping I can get some help.\n\nOn our website, certain buttons with certain links are being replaced. I entered our GTM and found when I pause \"Google Optimize\" tag, the behavior goes away. Obviously, we don't want that ENTIRE tag paused. \n\nOn the front-end code I download from the Sources tab, I see exactly the event that's causing it. It's a few chunks of code that look like this:\n\n\n     {\n             function: \"__etx\",\n              teardown_tags: [\"list\", [\"tag\", 17, 0]],\n              vtp_selector: \"div.vc_col-xs-12\\u003Ediv\\u003Ediv\\u003Ea\\u003Espan\",\n              vtp_identifier: \"div.vc_col-xs-12\\u003Ediv\\u003Ediv\\u003Ea\\u003Espan\",\n              vtp_text: \"Talk to Sales\",\n              vtp_childIndex: 0,\n              vtp_mode: \"REPLACE\",\n              tag_id: 89,\n    },\n    \nBut I CANNOT for the life of me figure out where to change these parameters. I see dataLayer.push() in the API call, but I don't know where in GTM to edit these commands or settings.\n\nAny help is greatly, greatly appreciated.",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/to0wcn/gtm_tag_google_optimize_is_replacing_links_on_my/",
+        "num_comments": 7,
+        "comments": [
+            {
+                "body": "So did you check in Google Optimize? Thats where you configure the changes etc or am i missing something here?",
+                "author": "mrsgeburt",
+                "score": 3
+            },
+            {
+                "body": "Can you see the Optimize Container ID in GTM? If you don't see the container in your Optimize, im guessing you dont have the necessary rights.",
+                "author": "mrsgeburt",
+                "score": 3
+            },
+            {
+                "body": "[deleted]",
+                "author": null,
+                "score": 1
+            },
+            {
+                "body": "the weird thing is that google optimize page doesn't have anything. No container listed and it has the \"getting started\" prompt.",
+                "author": "Life-Satisfaction-58",
+                "score": 1
+            },
+            {
+                "body": "they have GA4 and universal. Nothing is under Optimize, even when i'm in the admin account.",
+                "author": "Life-Satisfaction-58",
+                "score": 1
+            },
+            {
+                "body": "I'm in the admin account. And yes, I see the container ID in GTM. Just not sure where to go from there.",
+                "author": "Life-Satisfaction-58",
+                "score": 1
+            },
+            {
+                "body": "In GTM there should be a Google Optimize tag, that's the container, if you want to stop it, then just \"pause\" the tag (assuming that's the only experiment running). Maybe look at the trigger and see if it is only page specific?\n\nOtherwise, find who owns that Google Optimize account. You only see \"get started\" because you might not have access to that Google Optimize account.",
+                "author": "xtothel",
+                "score": 1
+            },
+            {
+                "body": "I’m guessing that even though I’m the admin, someone can have an account that effects that container that I can’t see? I’m guessing that’s what’s happening. Bc I have no accounts listed under optimize.",
+                "author": "Life-Satisfaction-58",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1625405500.0,
+        "title": "Tracking custom dimension + Javascript path",
+        "author": "pezct",
+        "id": "odkill",
+        "selftext": "Hello, I'm new to GTM and am trying to set up a custom dimension for Google Anaytics to track tags that appear on a website. After reading a bunch of articles, it looks like I need to reference the JS path when I create the custom dimension on GTM. \n\nThe JS path looks like this:\n\n*document.querySelector(\"#post-****52111*** *> div:nth-child(2) > div.td-pb-span8.td-main-content > div > footer > div.td-post-source-tags\")*\n\nbut on a different page, the post ID will differ\n\n*document.querySelector(\"#post-****45123*** *> div:nth-child(2) > div.td-pb-span8.td-main-content > div > footer > div.td-post-source-tags\")*\n\nHow do I reference the path structure, without referencing a specific article page? Can I use wildcards within the path?\n\nAny help would be appreciated.",
+        "score": 3,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/odkill/tracking_custom_dimension_javascript_path/",
+        "num_comments": 5,
+        "comments": [
+            {
+                "body": "[removed]",
+                "author": null,
+                "score": 1
+            },
+            {
+                "body": "Can't say I understood what you are trying to do. But you can partial match the id with the dynamic number by replacing your \"#post-555\" with \"[id\\^=post]\" this will match any id that starts with \"post\"",
+                "author": "AugustoCereto",
+                "score": 1
+            },
+            {
+                "body": "Interesting that when I'm logged out, I don't see my response on this subreddit",
+                "author": "Theincomeistoodamnlo",
+                "score": 1
+            },
+            {
+                "body": "Thank you, I will give that a try!",
+                "author": "pezct",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1592208845.0,
+        "title": "DataLayer Variable Not Being Pulled Correctly?",
+        "author": "JH8930",
+        "id": "h9bxg2",
+        "selftext": "Hello,\n\nSomething so simple is causing me to pull out my hair because I cannot get it working! I'm hoping someone with an understanding can help me out!\n\nI'm trying to pull the variable from a thank you page to insert into a Facebook tracking script for purchase.\n\nSo I am using Google Tag Manager 4 Wordpress as plugin as I was advised this was an easy solution to pushing data layers for Woocommerce events and data.\n\nThis creates a DLV titled: `gtm4wp.orderCompletedEEC:`\n\nThis message and layer is only created once and is created when the customer first returns to the thank you page.\n\nAnd here is the relevant output (replaced with dummy data) - I have not copied over non-essential keys.\n\n(These are all under the same data layer message output & the orderData + ecommerce are the parents).\n\n`orderData: {`\n\n`attributes: {`\n\n`// just showing above child key`\n\n`}`\n\n`totals: {`\n\n`total: '9.99'`\n\n`}`\n\n`}`\n\n\\----\n\nFew snippets down\n\n\\----\n\n`event:gtm4wp.orderCompletedEEC:`\n\n`ecommerce:{`\n\n`currencyCode: 'GBP'`\n\n`purchase:{`\n\n`actionField:{`\n\n`revenue: 9.99,`\n\n`}` (etc).\n\nI have tried creating a Variable selecting the following path:\n\n**ecommerce.purchase.actionField.revenue** \\- this seemed like it did something, but for some reason the FB Pixel took longer thant 5 seconds to load, so didn't do anything?\n\n**orderData.totals.total** \\- this returned a 0 - which I din't understand? I see the difference between the two is one is targeting '9.99' and the other is 9.99?\n\n*There is a* ***customerTotalOrderValue*** *parent key but that is hit and miss as with PayPal it can consider the page as Pending and not pass any value through (even though they have paid).*\n\nHere is the FB Code:\n\n`<script>`\n\n`fbq('track', 'Purchase', {`\n\n`value: {{FB Purchase Total}},`\n\n`currency: 'GBP',`\n\n`});`\n\n`</script>`\n\nThe value just isn't getting passed through. I'm not sure if I'm targeting the right variable or my FB code is bad?\n\n(FYI - the FB code works when you input a standard 9.99 as the value instead of the {{}})\n\nIf there is an easier solution than using this Google Tag Manager 4 Wordpress to send the correct Data Layers, that would be amazing if that could be suggested too.\n\nThanks for reading and your time.",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/h9bxg2/datalayer_variable_not_being_pulled_correctly/",
+        "num_comments": 9,
+        "comments": [
+            {
+                "body": "Work through the problem slowly. In Debug mode, click on the e-commerce event in the lefthand pane, then look at the variables to see if the variables are working correctly. If not, keeping trying to figure that part out.\n\nGreat, variable is working. Now you gotta figure out using it in a tag.\n\nWhen is the FB tag firing? My guess is you have set to Pageview/Container Loaded. If the FB tag is firing before the e-commerce event, then the variables won’t have data. yet. You should create a custom event trigger using the event name that the plugin uses when it pushes info to the data layer.",
+                "author": "werfnort",
+                "score": 1
+            },
+            {
+                "body": "\\^\\^ + check the order of events in preview pane // left side..you'd have a Page View event > What tags are fired there?           \n\nYou'd then have Custom event for e-commerce \\[makes sense\\] : Is your FB event here?              \n\nGTM 4 WP is the go-to solution I'd recommend . It's just a bit of debugging.            \n\nFor FB events, I'd also recommend using the FB tag custom template built by Simo Ahava. It avoids potential errors in Custom HTML setup. As long as you're DL values are available, it will read from there. The tag types also support e-comm events.",
+                "author": "gutterandstars",
+                "score": 1
+            },
+            {
+                "body": "I think you hit the nail on the head there with the events timing...\n\nThe tag fires when the Container loads (step 1) where as the ecommerce data is loaded as step 2.\n\nThe DOM Ready is loaded at step 6 - should I fire the pixel on DOM instead?\n\nThe variables are correct, but the concern is whether adding the {{}} code into the FB script is having a conflict with the values generated from the Variable (one is just 9.99 the other is '9.99') - should it make a difference?\n\nAll of this is self-taught online, so learning about the sequences will certainly help me out in the future! Thanks",
+                "author": "JH8930",
+                "score": 1
+            },
+            {
+                "body": "Thanks for the response.\n\nI'll look at the FB tag template, I've tried to do this as simply as possible. If this template works with GTM 4 WP out the box/easier than what I've done so far - I'll certainly be setting it up like this.\n\nthanks for the heads up.",
+                "author": "JH8930",
+                "score": 1
+            },
+            {
+                "body": "With the event timing, it’s better to be exact. Create a new trigger, choose Custom Event, and paste in the exact event that your plugin is using. “gtm4wp.orderComplete....” - that will listen and fire only when that event (and all its info) shows up.\n\nFor which variable... I would probably use the number version instead of the string, but I’d imagine FB can figure it out.",
+                "author": "werfnort",
+                "score": 1
+            },
+            {
+                "body": "FB tag template will only replace the Custom HTML tags you have in GTM. So, instead of putting code in your Custom HTML tag, you can create a tag with interface where you choose the type of event \\[whether pageview / add to cart/ purchase\\],,, the values that you want to pass in the event. Example: Revenue parameter >>> {{revenue - DataLayer}}.",
+                "author": "gutterandstars",
+                "score": 1
+            },
+            {
+                "body": "This worked perfectly. Thank you very much!",
+                "author": "JH8930",
+                "score": 1
+            },
+            {
+                "body": "Thanks for the info. i've managed to get a solution in place, which is working perfectly. Thanks again for the suggestion.",
+                "author": "JH8930",
+                "score": 1
+            },
+            {
+                "body": "Np",
+                "author": "gutterandstars",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1591573997.0,
+        "title": "Get all tags and their associated triggers and trigger URLs.",
+        "author": "cuhristophet",
+        "id": "gynqzu",
+        "selftext": "Hey everyone,\n\nI'm looking for an easy way to export all tags, triggers, and trigger URLs that are associated to one another into a nice python data frame, csv file, or xlsx file. The use case would be to have an easy way to troubleshoot which tags fire on which triggers rather than poking in GTM one by one.\n\nI've exported the container and received a nested JSON data file from Google Tag Manager, but I'm having issues with it. My tags follow the format:\n\n\\- Each tag has a trigger group.\n\n\\- Each trigger group has two triggers -- one trigger relevant and one irrelevant for this use case. The irrelevant one is always the same so it's easy to exclude.\n\nBecause the JSON data holds the trigger group and trigger in the same child, I can only get the trigger group that's associated to each tag and not the trigger/trigger url. I need to grab the tag name, the trigger group name, the trigger name, and the triggers url.\n\nDoes anyone have experience with this?",
+        "score": 4,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/gynqzu/get_all_tags_and_their_associated_triggers_and/",
+        "num_comments": 6,
+        "comments": [
+            {
+                "body": "Had a look at the GTM JSON export. \n\nWhy can't you go over the triggers array twice? Once to pull the inidividual ID(s) from the group, once to pull the name/url/etc from the individual trigger?\n\nI'd probably build something for this in Apps script that would:\n\n- Loop over the tags, grab the name and triggerId.\n- Loop over the triggers, find the triggerId (for the group), get the triggerIds from the LIST paramater for the individual trigger Ids (or the one relevant ID, excluding the irrelevant one which you mentioned).\n- Now with the individual trigger Id, loop over the Triggers again, find the individual trigger, grab the name and whatever values you want from the Filter array.\n\nPut it all in a Sheet, automate the script to pull the latest container every night, and you have a fresh overview every day.\n\n[edit - I'm not a dev so there's probably a 1000 better ways to do this]",
+                "author": "Uncrowned_Emperor",
+                "score": 2
+            },
+            {
+                "body": "This is super helpful! I'm not too experienced in Python so I'd have to figure out how to do the looping and look ups, but these guidelines are super helpful for me. I've only been able to get the tag and first trigger group together thusfar without the loops. I'll give this a shot, thanks!\n\nAlso not a dev, so I feel the pain. Haha",
+                "author": "cuhristophet",
+                "score": 1
+            },
+            {
+                "body": "Python might have more elegant ways to find values in arrays but my \"programming\" doesn't go beyond the Apps Script version of javascript and some sql.\n\nAnyway let me know if you get stuck.",
+                "author": "Uncrowned_Emperor",
+                "score": 1
+            },
+            {
+                "body": "I come back to this thread, 5 days and several hundred code attempts later, unsuccessful. :(\n\nThanks to your guidelines, I've been able to get the tag name, trigger group name and the trigger Id inside the list parameter, which would related to the trigger url in my scenario.\n\nHowever, I can't seem to figure out the last part of your suggestion in looping over the triggers again and match the ID I pull from the list parameter to its name. I basically have this array of trigger IDs, but I don't know how to get the trigger name from this list of trigger ids, and further more, into a nice table. Any suggestions?\n\n(Sorry this is turning into more of a coding question)",
+                "author": "cuhristophet",
+                "score": 1
+            },
+            {
+                "body": "I don't think I can help much here due to lack of Python knowledge. \nPerhaps have a look on StackOverflow? I did a quick check there and saw a post \"Using 'in' to match an attribute of Python objects in an array\" which might help?",
+                "author": "Uncrowned_Emperor",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1612209029.0,
+        "title": "Comma usage for the possibility of multiple FB pixel IDs",
+        "author": "levine2112",
+        "id": "lac9ec",
+        "selftext": " I manage a site that is a parent site (corporate) and contains franchise child sites under the same URL (parentsite.com and parentsite.com/franchise1, parentsite.com/franchise2, et cetera). The corporate as well as the franchises each have their own unique Facebook pixel. We want the FB pixel for corporate to appear on all pages - whether a visitor is on a franchise page or somewhere else on the site.\n\nI have decided to use javascript to parse the URL to look for /franchise1, /franchise2, et cetera. Then use a Lookup Table to assign the FB pixel ID. I'm already using this solution to assign UA and Google Ads tags.\n\nMy question comes down to \"comma usage\" to separate FB pixel IDs. I'm using the FB Pixel template created by our fearless leader u/sahava . So how should I handle the FB Pixel ID? Let's assume the Corporate FB Pixel is: 123456\n\n# 123456, {{LOOKUP TABLE RESULT}} ... WHERE THE LOOKUP TABLE RESULT EQUALS THE \"FRANCHISE FB PIXEL\"... IN CASES WHEN THE VISITOR ISN'T ON A FRANCHISE PAGE, WOULD THE COMMA TRAILING THE CORPORATE FB PIXEL BE PROBLEMATIC?\n\n# {{LOOKUP TABLE RESULT}} ... WHERE THE LOOKUP TABLE RESULT EQUALS \"123456,SOMEFRANCHISEID\" AND THE DEFAULT VALUE IS JUST \"123456\"?\n\n# SOMETHING ELSE? AM I OVERTHINKING THIS?",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/lac9ec/comma_usage_for_the_possibility_of_multiple_fb/",
+        "num_comments": 3,
+        "comments": [
+            {
+                "body": "I’d try to go with option 2 and have the 123456 as the default value for the reflex lookup table\n\nThen you can check it in Preview mode to see how it’s firing and the pixel data is being received and proceeded by FB as intended",
+                "author": "HoosierDaddy3",
+                "score": 1
+            },
+            {
+                "body": "Thank you. Yes. I guess I should just try it and see what happens.",
+                "author": "levine2112",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1606501553.0,
+        "title": "Form scan doesn't work on Safari?",
+        "author": "davidtyburek",
+        "id": "k26m7l",
+        "selftext": "Hi all!  \nIs there a workaround for a custom html script not collecting data from form inputs on iOS?  \n\n\nI have a script that stores input data as variables and on submit it send data to external tool and it works everywhere but the iOS. Any thoughts?",
+        "score": 1,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/k26m7l/form_scan_doesnt_work_on_safari/",
+        "num_comments": 3,
+        "comments": [
+            {
+                "body": "Please share the exact HTML of the form, the script you are using, the triggers, variables etc. \n\nIt’s impossible to guess what the issue might be without details.",
+                "author": "sahava",
+                "score": 1
+            },
+            {
+                "body": "    <script>\n      var formRegisterFull = document.querySelector('.Form_form__3wKGu');\n      \n      if (formRegisterFull) {\n        formRegisterFull.addEventListener('submit', function() {\n          \n          var name = formRegisterFull.querySelector('#root > div > main > div > div > div > form > div > div:nth-child(1) > label > div:nth-child(2) > input').value;\n          var phone = formRegisterFull.querySelector('#root > div > main > div > div > div > form > div > div:nth-child(2) > label > div:nth-child(2) > input').value;\n          var street = formRegisterFull.querySelector('#root > div > main > div > div > div > form > div > div:nth-child(3) > label > div:nth-child(2) > input').value;\n          var house = formRegisterFull.querySelector('#root > div > main > div > div > div > form > div > div:nth-child(4) > label > div:nth-child(2) > input').value;\n          var flat = formRegisterFull.querySelector('#root > div > main > div > div > div > form > div > div:nth-child(5) > label > div:nth-child(2) > input').value;\n          var city = formRegisterFull.querySelector('#root > div > main > div > div > div > form > div > div:nth-child(6) > label > div:nth-child(2) > input').value;\n    \n          \n         \n            send('event.Register');\n          \n            Update.user({\n              name: name,\n              phone_number: phone,\n              street: street,\n              flat: house,\n              aprt: flat,\n              city: city,\n              \n            });\n        });\n      }\n    </script>",
+                "author": "davidtyburek",
+                "score": 1
+            },
+            {
+                "body": "Thank you. This is the code, ive tried without if and its still not passing data. Tag fires on iOS, trigger is just a Window Loaded. Cannot paste form html yet, will update this topic later during the day.",
+                "author": "davidtyburek",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1598024644.0,
+        "title": "Click event doesn't fire button click",
+        "author": "r3plica0",
+        "id": "idz49l",
+        "selftext": "I have seen someone post something similar:  [https://www.reddit.com/r/GoogleTagManager/comments/dyhvu5/click\\_trigger\\_wont\\_fire\\_properly/](https://www.reddit.com/r/GoogleTagManager/comments/dyhvu5/click_trigger_wont_fire_properly/) \n\nBut the solution didn't fix my issue.  \nI am using Angular Material and have added data attributes to a button (data-category and data-action). When I click the button with just \"Click - All Elements\" enabled, it actually fires from the span inside the button.\n\nI have tried setting a css selector and doing it like this:\n\n`Click Element matches CSS selector button[data-category], button[data-category] *`\n\nThe problem with this, is that my Event uses the data layer on the button, so `button[data-category] *` doesn't work because all the data layers are on the button and not on the child elements.\n\nSurely someone has come across this before?\n\nI created a stack post with images:\n\n [https://stackoverflow.com/questions/63524727/google-tag-manager-and-angular-material-buttons](https://stackoverflow.com/questions/63524727/google-tag-manager-and-angular-material-buttons)",
+        "score": 2,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/idz49l/click_event_doesnt_fire_button_click/",
+        "num_comments": 3,
+        "comments": [
+            {
+                "body": "In this case, I would recommend just going to datalayer events instead of data attributes.",
+                "author": "xtothel",
+                "score": 1
+            },
+            {
+                "body": "I am not sure what you mean by this; does this mean using JavaScript to create custom events like this:\n\n <script>  \n  dataLayer = \\[{  \n 'pageCategory': 'signup',  \n 'visitorType': 'high-value'  \n }\\];  \n</script>",
+                "author": "r3plica0",
+                "score": 1
+            },
+            {
+                "body": "Close, like this: [https://developers.google.com/tag-manager/devguide](https://developers.google.com/tag-manager/devguide)",
+                "author": "xtothel",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1624856926.0,
+        "title": "Click event only fired when clicking around the container box but not when clicking on the HTML element children.",
+        "author": "adrenaline681",
+        "id": "o9dhlu",
+        "selftext": "I'm setting up for the first time some click events with GTM and GA4.\n\nLets say I have a product container element with the \"product\" class and then some children inside for name, image, quantity, etc.\n\n    <div>\n        <div class='product'>\n            <h2>Cocacola</h2>\n            <img src=\"cocacola.jpg\">\n            <div>Amount:<span>2</span></div>    \n        </div>\n    </div>\n\nMy trigger settings are:\n\n    Click - All Elements\n    Some Clicks\n    Click Classes contains product\n\nThe click event is fired correctly when I click around the container div, but if I click on the children (Name, Image or Amount) the event is not fired.\n\nHow can I make sure the event fires even if I click on the children?\n\nNot sure if it makes any difference but I'm using ReactJS for my website.\n\n&#x200B;",
+        "score": 2,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/o9dhlu/click_event_only_fired_when_clicking_around_the/",
+        "num_comments": 8,
+        "comments": [
+            {
+                "body": "I achieve this behaviour by using CSS selector. \nSwitch your condition from Click Classes to CSS selector and use the following:\n\n.product *\n\nIt means \"target any element with a class product, or any child of product class element\". \" *\" stands for \"any child\".",
+                "author": "alex_wot",
+                "score": 2
+            },
+            {
+                "body": "This would fix that issue but seems pretty convoluted. I think I found a simpler method that just uses one CSS command.\n\nI'm selecting all the children of the product and setting the \"pointer-events\" to none.\n\n    .product > * {\n        pointer-events: none;\n    }\n\nThis seems to prevent the children from getting an event click.",
+                "author": "adrenaline681",
+                "score": 2
+            },
+            {
+                "body": "Simo Ahava has a useful way to handle this. I’m on mobile, so linking is a pain, but it was called a Polyfill. I use it all the time! Super helpful.",
+                "author": "roberthunicorn",
+                "score": 1
+            },
+            {
+                "body": "Hey did you ever solve this?",
+                "author": "frankdiddit",
+                "score": 1
+            },
+            {
+                "body": "This might work but what happens if you have a custom data attribute only on the container that I want to pass to Google Analytics. for example: \"data-product-name\".\n\nThe children will fire the event but will not have that attribute.",
+                "author": "adrenaline681",
+                "score": 1
+            },
+            {
+                "body": "I added pointer-events: none to all of the children inside the parent element this way they will not be affected by click events",
+                "author": "adrenaline681",
+                "score": 1
+            },
+            {
+                "body": "I'd make a variable of custom JavaScript type and write a script, which returns the data-product-name attribute of the first element with this attribute set within the DOM node. \n\nSo, the algorithm is roughly the following:\n\n1. Check if the element has the data-product-name attribute. \n\n1.1. If it has, then return the attribute value. \n\n1.2. If it doesn't have, check if it's <html> node (the root node)\n\n1.2.1 If it's <html> node, than return NULL as we went through the entire node and didn't find the attribute. \n\nThen you invoke step 1 for the parent element of the current element.\n\nThus, your custom JavaScript will produce a variable that holds the data-product-name attribute value or NULL if such attribute isn't present in the node where the click landed. \n\nThat's the only way to do this that I know. Afaik that's just how the HTML elements works: your click can land on any element within the container. In reality it's not \"any\" element, it depends on elements' margins and the further the element is nested the more priority in getting the click it has, but anyway.",
+                "author": "alex_wot",
+                "score": 1
+            },
+            {
+                "body": "A neat hack, didn't know about it. Thank you for sharing!",
+                "author": "alex_wot",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1595512075.0,
+        "title": "Tracking iframe visibility",
+        "author": "beef_chiseltip",
+        "id": "hwfy9n",
+        "selftext": "I'm working on a website that uses a third-party application. \n\nThis initialization of the third-party iframe requires a target element on the page to load itself into. The container is empty on page load, then on a button click the iframe is injected.\n\n(I have no ability to alter or configure the third party application.)\n\nBEFORE\n<div id=\"targetContainer\">\n</div>\n\n\nAFTER\n<div id=\"targetContainer\">\n    <iframe>...</iframe>\n</div>\n\nWhile I could track the button click, I think detecting an event where the targetContainer.children.length > 0 would be more indicative if the content actually loaded.\n\nAny suggestions or critiques on how to get that implemented?",
+        "score": 2,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/hwfy9n/tracking_iframe_visibility/",
+        "num_comments": 4,
+        "comments": [
+            {
+                "body": "Off top of head you could use the built-in element visibility trigger to fire once per page while using the “Observe DOM changes” feature. Just make sure the iframe has an element ID. Will work even if the element is dynamically inserted as in your case. Have it fire once per page. For the tag that is triggered by this you could fire a GA event with category/action/value that’s relevant to your case. On mobile so can’t test it but I think it should work...",
+                "author": "hiscapness",
+                "score": 1
+            },
+            {
+                "body": "I did attempt a similar trigger by using a css selector\n\n'#targetContainer > iframe\n\nwith the Observe DOM changes enabled, and I still couldn't get it to work.\n\nThe iframe doesn't have an ID, but it seems weird the selector wouldn't work. I mean... It's selecting the correct element, just in a different way.",
+                "author": "beef_chiseltip",
+                "score": 1
+            },
+            {
+                "body": "I’ll see if I can whip up a test case tomorrow to try...",
+                "author": "hiscapness",
+                "score": 1
+            },
+            {
+                "body": "Awesome. I'll go back and verify my settings to make sure everything checks out. Appreciate the help.",
+                "author": "beef_chiseltip",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1734425401.0,
+        "title": " A tag read consent state before a default was set",
+        "author": "d4truE",
+        "id": "1hg6iuc",
+        "selftext": "Hello. I am currently experiencing a problem with google tag manager. \n\nI got a message \"Some pages are missing consent for EEA users\" in my tag quality tab in google ads. \n\nWhen i hop onto the tag manager i get this : A tag read consent state before a default was set .\n\nI am using consent magic pro plugin. I had some problems with my tags and i reinstalled everything. Don't know how this affected the use of the plugin. \n\nHelp appreciated. Thanks.\n\n",
+        "score": 2,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/1hg6iuc/a_tag_read_consent_state_before_a_default_was_set/",
+        "num_comments": 8,
+        "comments": [
+            {
+                "body": "It isn't a good idea to go cheap on consent, the risk is too high. Cookiebot is the market leader, you can be confident that if it's not working it's not because of Cookiebot, it's because of the way it's been implemented on your site.\n\nHappy to help if you need it, just send me a DM.",
+                "author": "Taca-F",
+                "score": 3
+            },
+            {
+                "body": "Have you implemented your consent management through Google Tag Manager with a CMP and Google Consent Mode?",
+                "author": "Taca-F",
+                "score": 2
+            },
+            {
+                "body": "There's plenty of Google documentation, videos on YouTube and I'm sure your own CMP will have documentation as well to follow.\n\nWhat is the nature of your business?",
+                "author": "Taca-F",
+                "score": 2
+            },
+            {
+                "body": "Honestly, I wouldn't use Consent Magic, their own website doesn't follow proper consent best practice. I'd use Cookiebot.",
+                "author": "Taca-F",
+                "score": 2
+            },
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "I have actually no idea how its implemented. I had a marketing company set it up for me, however we parted ways and i am trying ads my own now. Google ads->tools->data manager->admin-> consent mode is active.  \nIs there a way to check how its implemented? and go from there?  \nThanks.",
+                "author": "d4truE",
+                "score": 1
+            },
+            {
+                "body": "I have a woocommerce e-shop. Baby and kids goods. Should i remove consent magic pro plugin and reinstall/setup it?",
+                "author": "d4truE",
+                "score": 1
+            },
+            {
+                "body": "Do you know of any free option? because i already paid 150€ for a year for consent magic. My licence expires May 25. But if there is not a free alternative i guess $7/month for cookiebot is reasonable for a piece of mind.",
+                "author": "d4truE",
+                "score": 1
+            }
+        ]
+    },
+    {
+        "subreddit": "GoogleTagManager",
+        "created": 1725644157.0,
+        "title": "Newby struggling like crazy - Tag Manager + Ads",
+        "author": "brooxianne",
+        "id": "1fal1s3",
+        "selftext": "Not 100% sure if this is a Google Ads or a GTM question ... hoping someone brilliant here can help.  \n\n\nThis new kid needs a new google tag for the google ad I just created. My intention is to track PVs of the \"thanks\" URL customers get to after buying my online course.  \n  \nI'm trying to get a conversion ID set up (for tag manager) with my new google ad to connect it to the \"thanks\" URL post-purchase. I'm getting stuck between steps 2 & 3 in Google Ads:\n\n1. Conversion Goal > Page View  \n2. URL > (I entered my thank you page)  \n*hit scan - it clears out the URL box and won't let me go to step 3, \"Conversion ID\"*\n\nWhat am I doing wrong here?",
+        "score": 2,
+        "url": "https://www.reddit.com/r/GoogleTagManager/comments/1fal1s3/newby_struggling_like_crazy_tag_manager_ads/",
+        "num_comments": 9,
+        "comments": [
+            {
+                "body": "That sounds more like a UI bug than anything else. Either way, you should ideally create a manual conversion action instead of a URL conversion.\n\n\n\n\nA URL conversion is tracked automatically based on the setup in Google Ads. A manual conversion will provide you with a conversion id that can be used for manual implementation (which seems to be your end goal).",
+                "author": "brannefterlasning",
+                "score": 2
+            },
+            {
+                "body": "If this post doesn't follow the rules [report it to the mods](https://www.reddit.com/r/GoogleTagManager/about/rules/). Have more questions? [Join our community Discord!](https://discord.gg/looking-for-marketing-discussion-811236647760298024)\n\n\n*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/GoogleTagManager) if you have any questions or concerns.*",
+                "author": "AutoModerator",
+                "score": 1
+            },
+            {
+                "body": "Is your GA4 connected to your Google Ads, and are you following the correct steps? Please confirm. Feel free to reach out if you need any help.",
+                "author": "MarketerErfan_",
+                "score": 1
+            },
+            {
+                "body": "Just enter your homepage URL, not the full thank you URL",
+                "author": "blaff3687",
+                "score": 1
+            },
+            {
+                "body": "Conversion ID and Conversion Label is only visible when choose manual conversion action and opt for google tag manager from three options.",
+                "author": "sandip_routh",
+                "score": 1
+            },
+            {
+                "body": "Thanks. I was trying to track purchases of my course by tracking when the Thank You screen was triggered. \n\nI'm fine doing it a different way - I just don't know how. I'll look for how to do a manual conversion, see if I can figure that out. I think I was trying that first yesterday, but couldn't figure out how to get the conversion ID to generate.",
+                "author": "brooxianne",
+                "score": 1
+            },
+            {
+                "body": "OK, but the way I'm measuring a purchase is that they reach the thank you screen. Is there a better way?",
+                "author": "brooxianne",
+                "score": 1
+            },
+            {
+                "body": "If you want to track a purchase then you will also want to dynamically collect the purchase value and as far as I know the only way to do that is through a manual conversion action. \n\n\n\n\nThe conversion id is automatically generated for you as soon as you've completed the setup of your conversion. Then you select the newly created conversion and there will be a section where you can view the code that is supposed to be implemented on site. The code includes the conversion id.",
+                "author": "brannefterlasning",
+                "score": 1
+            }
+        ]
+    }
+]
