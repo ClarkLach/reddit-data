@@ -14,6 +14,7 @@ reddit = praw.Reddit(
 
 subreddits = [
     "GDPR",
+    "GoogleAnalytics",
     "GoogleTagManager",
     "webdev",
     "web_design"
@@ -44,7 +45,7 @@ keywords = {
         "kids"
     ],
 
-    "management": [
+    "CMP": [
         "CMP",
         "Consent Management Platform",
         "Consent Management"
@@ -57,6 +58,8 @@ keywords = {
     ]
 }
 
+all_keywords = [kw for sublist in keywords.values() for kw in sublist]
+
 # Hard date of Jan 1, 2020 instead of exact 5 year from run time.
 five_years_ago = int(time.mktime(time.strptime("2020-01-01", "%Y-%m-%d")))
 
@@ -64,7 +67,7 @@ five_years_ago = int(time.mktime(time.strptime("2020-01-01", "%Y-%m-%d")))
 posts_data = []
 post_ids = set()  # Set to track post IDs and avoid duplicates
 
-def search_posts(subreddit_name, keywords, category):
+def search_posts(subreddit_name, keywords):
     subreddit = reddit.subreddit(subreddit_name)
     for keyword in keywords:
         cur_posts = subreddit.search(keyword, limit=1000)
@@ -102,21 +105,20 @@ def search_posts(subreddit_name, keywords, category):
             post_ids.add(post.id)  # Add post ID to the set to avoid duplicates
             posts_data.append(post_info)
         
-        print(f"{subreddit_name} - {category} - {keyword}")
+        print(f"{subreddit_name} - {keyword}")
 
-    print(f"Scraped {subreddit_name} for {category}")
+    print(f"Scraped {subreddit_name}")
 
 # Search for each keyword group in the subreddits
 for subreddit_name in subreddits:
-    for category, temp_keywords in keywords.items():
-        search_posts(subreddit_name, temp_keywords, category)
+        search_posts(subreddit_name, all_keywords)
 
         os.makedirs(f"subreddits/{subreddit_name}", exist_ok=True)
-        file_path = f"subreddits/{subreddit_name}/{subreddit_name}_posts_{category}.json"
+        file_path = f"subreddits/{subreddit_name}/{subreddit_name}_posts_all.json"
 
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(posts_data, f, ensure_ascii=False, indent=4)
 
         print(f"Data saved to {file_path}")
-        posts_data.clear()  # Clear posts_data for the next subreddit and category
-        post_ids.clear()    # Clear post_ids for the next subreddit and category
+        posts_data.clear()  # Clear posts_data for the next subreddit
+        post_ids.clear()    # Clear post_ids for the next subreddit

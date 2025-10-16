@@ -6,6 +6,8 @@ subreddits/ contains folders of each of the following subreddits and their extra
 "web_design",
 "GoogleAnalytics"
 
+The file "{subreddit}_posts_all.json" contains all extracted posts from each subreddit, without duplicates.
+
 grouped_data/ contains the original extracted posts (back in June) for each keyword group.
 
 "extraction_script.py" is the script used to extact posts, and contains the extact keywords used within each category.
